@@ -8,7 +8,7 @@ from console_handler import command_finished
 def handle_client(conn, addr, clients):
     with conn:  # while connected to client
         print("\n" + Fore.BLUE + "Connected by" + Style.RESET_ALL, addr)
-        while True:
+        while True:  # while connected to client, listen for requests
             try:
                 data = conn.recv(1024)
                 if not data:
@@ -17,7 +17,7 @@ def handle_client(conn, addr, clients):
                         clients.remove(conn)
                     break
 
-                if command_finished.is_set():
+                if command_finished.is_set():  # if command_finished is true(AKA no command is being executed) print received data
                     print(Fore.BLUE + "Received data: {}".format(data.decode('utf-8')) + Style.RESET_ALL)
 
                     # Insert your logic here to handle the received data
@@ -28,5 +28,3 @@ def handle_client(conn, addr, clients):
                 if conn in clients:
                     clients.remove(conn)
                 break
-
-
