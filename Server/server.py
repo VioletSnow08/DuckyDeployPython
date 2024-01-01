@@ -22,7 +22,7 @@ def main():
         while True:  # search for clients
             conn, addr = s.accept()
             clients.append(conn)
-            threading.Thread(target=handle_client, args=(conn, addr, clients), daemon=True).start()
+            threading.Thread(target=handle_client, args=(conn, addr, clients ), daemon=True).start()
 
 
 if __name__ == "__main__":

@@ -2,8 +2,8 @@
 
 import socket
 from colorama import Fore, Style
+from console_handler import command_finished
 
-from Server.console_handler import command_finished
 
 def handle_client(conn, addr, clients):
     with conn:  # while connected to client
@@ -16,10 +16,17 @@ def handle_client(conn, addr, clients):
                     if conn in clients:
                         clients.remove(conn)
                     break
+
                 if command_finished.is_set():
-                    print(Fore.BLUE + "Received data: {}".format(data) + Style.RESET_ALL)
+                    print(Fore.BLUE + "Received data: {}".format(data.decode('utf-8')) + Style.RESET_ALL)
+
+                    # Insert your logic here to handle the received data
+                    # You may want to check the content of the received data and perform actions accordingly
+
             except socket.error as e:
                 print(Fore.RED + "Connection error with {}: {}".format(addr, e) + Style.RESET_ALL)
                 if conn in clients:
                     clients.remove(conn)
                 break
+
+

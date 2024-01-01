@@ -20,7 +20,6 @@ def rshell_thread(conn):
             command_finished.set()
             break
         conn.sendall(command.encode())
-        # once the server is ready for a response
-        conn.sendall(b'ACK')
         results = conn.recv(1024)
         print("Received results: {}".format(results.decode('utf-8')))
+
