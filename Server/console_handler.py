@@ -10,7 +10,7 @@ def handle_console(clients):
     command_finished.set()  # Initially set to True
     while True:
         if command_finished.is_set():
-            command = input(Fore.GREEN + "Enter command: " + Style.RESET_ALL)
+            command = input("Enter command: " + Style.RESET_ALL)
         else:
             command_finished.wait()
             command_finished.clear()
@@ -23,7 +23,7 @@ def handle_console(clients):
             if id >= len(clients) or id < 0:
                 raise InvalidClientId(id)
         except ValueError:
-            print(Fore.RED + "Invalid command: {}".format(command) + Style.RESET_ALL)
+            print(Fore.RED + "Invalid command: " + Fore.WHITE + "{}".format(command) + Style.RESET_ALL)
             continue
         except InvalidClientId as e:
             print(Fore.RED + "Client does not exist: {}".format(e.id) + Style.RESET_ALL)
