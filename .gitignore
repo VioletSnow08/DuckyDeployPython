@@ -6,3 +6,6 @@ Server/__pycache__/
 build/index.exe/
 
 *.spec
+!/dist/
+
+!/build/
