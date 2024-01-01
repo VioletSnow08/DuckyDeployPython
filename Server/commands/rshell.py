@@ -23,6 +23,10 @@ def rshell_thread(conn):
             command_finished.set()
             break
         conn.sendall(command.encode())
-        results = conn.recv(1024)
+        results = b''
+        while not results.endswith(b'\n'):
+            chunk = conn.recv(1024)
+            if not chunk:
+                break
+            results += chunk
         print("<" + hostname + ">: {}".format(results.decode('utf-8')))
-
