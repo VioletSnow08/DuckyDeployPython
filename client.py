@@ -6,8 +6,9 @@ import socket
 
 from colorama import Fore, Style
 
-HOST = '127.0.0.1'
-PORT = 1234
+# HOST = '127.0.0.1'
+HOST = "192.168.1.50"
+PORT = 5616
 
 URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 chrome_path = 'C:\Program Files\Google\Chrome\Application\chrome.exe'

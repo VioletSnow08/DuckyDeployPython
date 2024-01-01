@@ -6,8 +6,8 @@ from client_handler import handle_client
 from console_handler import handle_console
 from colorama import Fore, Style
 
-HOST = '127.0.0.1'
-PORT = 1234
+HOST = "127.0.0.1"
+PORT = 5616
 
 clients = []
 
