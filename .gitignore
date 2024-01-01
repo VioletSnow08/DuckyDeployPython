@@ -4,3 +4,5 @@ build/client/
 Server/__pycache__/
 
 build/index.exe/
+
+*.spec
