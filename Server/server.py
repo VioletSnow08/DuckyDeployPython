@@ -6,7 +6,8 @@ from client_handler import handle_client
 from console_handler import handle_console
 from colorama import Fore, Style
 
-HOST = "127.0.0.1"
+# get local IP address
+HOST = (socket.gethostbyname_ex(socket.gethostname())[2][3])
 PORT = 5616
 
 clients = []
@@ -16,7 +17,7 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
         s.listen()
-        print(Fore.GREEN + "Listening on port {}...".format(PORT) + Fore.RESET)
+        print(Fore.GREEN + "Listening on IP: {}, port {}...".format(HOST, PORT) + Fore.RESET)
         threading.Thread(target=handle_console, args=(clients,), daemon=True).start()
 
         while True:  # search for clients
