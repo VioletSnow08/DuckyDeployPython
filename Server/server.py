@@ -7,7 +7,7 @@ from console_handler import handle_console
 from colorama import Fore, Style
 
 # get local IP address
-HOST = (socket.gethostbyname_ex(socket.gethostname())[2][3])
+HOST = (socket.gethostbyname_ex(socket.gethostname())[2][-1])
 PORT = 5616
 
 clients = []
