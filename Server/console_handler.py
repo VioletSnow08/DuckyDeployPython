@@ -6,6 +6,7 @@ import threading
 
 command_finished = threading.Event()  # Define command_finished here
 
+
 def handle_console(clients):
     command_finished.set()  # Initially set to True
     while True:
@@ -29,11 +30,12 @@ def handle_console(clients):
             print(Fore.RED + "Client does not exist: {}".format(e.id) + Style.RESET_ALL)
             continue
 
-        handle_commands(clients[id], command, id, clients, command_finished)
+        handle_commands(clients[id], command, id, clients)
         command_finished.wait()
         command_finished.clear()
 
-def handle_commands(conn, command, id, clients, command_finished):
+
+def handle_commands(conn, command, id, clients):
     cmd = command.split()[0]
     args = command.split()[1:]
     try:
