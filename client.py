@@ -7,7 +7,7 @@ import socket
 from colorama import Fore, Style
 
 # HOST = '127.0.0.1'
-HOST = "192.168.1.92"
+HOST = "192.168.1.50"
 PORT = 5616
 
 URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -28,6 +28,7 @@ def socketStart():
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 try:
                     s.connect((HOST, PORT))
+                    print("Connected to server.")
                 except ConnectionRefusedError:
                     print("Connection refused by server.")
                     time.sleep(1)
