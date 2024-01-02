@@ -3,9 +3,11 @@ from colorama import Fore, Style
 
 requires_id = True
 
-from Server.console_handler import command_finished
+from Server.console_handler import inactive
+
 
 def execute(conn, args, clients, id):
+    inactive.clear()
     clients[id].sendall(b'ROLL')
     print("Rickrolling client:", id)
-    command_finished.clear()  # Clear the event here
+    inactive.set()  # set the event here

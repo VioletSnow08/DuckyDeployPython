@@ -2,7 +2,7 @@
 
 import socket
 from colorama import Fore, Style
-from console_handler import command_finished
+from console_handler import inactive
 
 
 def handle_client(conn, addr, clients):
