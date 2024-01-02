@@ -6,6 +6,7 @@ from rich.table import Table
 
 requires_id = False
 
+
 def execute(args, clients):
     console = Console()
     table = Table(show_header=True, header_style="bold magenta")

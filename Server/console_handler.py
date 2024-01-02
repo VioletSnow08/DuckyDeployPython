@@ -22,7 +22,10 @@ def handle_commands(command, clients):
     try:
         command_module = importlib.import_module(f'commands.{cmd.lower()}')
         if command_module.requires_id and args:
-            id = int(args[0])
+            try:
+                id = int(args[0])
+            except ValueError:
+                raise InvalidClientId(args[0])
             # check if ID is within range
             if id >= len(clients) or id < 0:
                 raise InvalidClientId(id)
