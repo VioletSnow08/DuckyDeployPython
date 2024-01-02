@@ -2,7 +2,6 @@
 from colorama import Fore, Style
 
 requires_id = False
-from Server.console_handler import command_busy
 
 def execute(args, clients):
     # create list of current clients with ID

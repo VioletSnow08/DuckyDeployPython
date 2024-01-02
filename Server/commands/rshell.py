@@ -4,7 +4,6 @@ import threading
 
 from colorama import Style
 
-from console_handler import command_busy
 
 
 requires_id = True
@@ -15,7 +14,6 @@ def execute(conn, args, clients, id):
     conn.sendall(b'RSHELL')
     # threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
     rshell_thread(conn)
-    # command_busy.clear()
 
 def rshell_thread(conn):
     hostname = conn.getpeername()[0]
