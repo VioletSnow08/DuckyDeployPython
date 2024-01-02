@@ -9,3 +9,5 @@ build/index.exe/
 !/dist/
 
 !/build/
+
+build/client.exe/
