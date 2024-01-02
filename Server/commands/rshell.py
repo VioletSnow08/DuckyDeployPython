@@ -6,7 +6,7 @@ from colorama import Style, Fore
 
 requires_id = True
 
-argumentError = "Invalid arguments. Usage: rshell <client_id> <command>"
+argumentError = "Invalid arguments. Usage: rshell <client_id>"
 
 
 def execute(conn, args, clients, id):
