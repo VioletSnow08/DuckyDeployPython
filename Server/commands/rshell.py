@@ -13,6 +13,8 @@ def execute(conn, args, clients, id):
     command_finished.clear()
     conn.sendall(b'RSHELL')
     threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
+    command_finished.clear()  # Clear the event here
+
 
 
 def rshell_thread(conn):

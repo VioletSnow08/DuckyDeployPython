@@ -10,7 +10,7 @@ command_finished = threading.Event()  # Define command_finished here
 def handle_console(clients):
     command_finished.set()  # Initially set to True
     while True:
-        if command_finished.is_set():
+        if not command_finished.is_set():
             command = input("Enter command: " + Style.RESET_ALL)
         else:
             command_finished.wait()
@@ -47,6 +47,8 @@ def handle_commands(conn, command, id, clients):
             command_module.execute(conn, args, clients, id)
         else:
             command_module.execute(conn, args, clients)
+        command_finished.set()
+        # command_finished.clear()  # Clear the event here
     except ImportError:
         print(Fore.RED + f"Invalid command: {cmd}" + Style.RESET_ALL)
     finally:
