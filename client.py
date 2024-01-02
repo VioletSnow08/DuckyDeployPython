@@ -7,7 +7,7 @@ import socket
 from colorama import Fore, Style
 
 # HOST = '127.0.0.1'
-HOST = "192.168.1.50"
+HOST = "192.168.1.92"
 PORT = 5616
 
 rickroll_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"

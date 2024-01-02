@@ -1,47 +1,51 @@
 # console_handler.py
-from Server.Exceptions import InvalidClientId
+from Server.Exceptions import InvalidClientId, InvalidArguments
 from colorama import Fore, Style
 import importlib
 import threading
 
-inactive = threading.Event()  # Define command_finished here
+command_busy = threading.Event()  # Define command_finished here
 
 
 def handle_console(clients):
-    inactive.set()
+    command_busy.clear()
     while True:
-        if inactive.is_set():
+        if not command_busy.is_set():
             command = input("Enter command: " + Style.RESET_ALL)
-        else:
-            inactive.wait()
-            inactive.clear()
-            continue
+            handle_commands(command, clients)
 
-        handle_commands(command, clients)
+
+
         # inactive.wait()
         # inactive.set()
+
 
 
 def handle_commands(command, clients):
     cmd = command.split(' ')[0]
     args = command.split(' ')[1:]
+
     try:
         command_module = importlib.import_module(f'commands.{cmd.lower()}')
         if command_module.requires_id and args:
             id = int(args[0])
+            # check if ID is within range
             if id >= len(clients) or id < 0:
                 raise InvalidClientId(id)
-            inactive.clear()
-            command_module.execute(clients[id], args, clients, id)
+            else:
+                command_busy.set()
+                command_module.execute(clients[id], args, clients, id)
         elif command_module.requires_id and not args:
-            print(Fore.RED + "Command requires arguments: " + cmd + Style.RESET_ALL)
-        else:
-            inactive.clear()
+            raise InvalidArguments(command_module.argumentError)
+        elif not command_module.requires_id:
+            command_busy.set()
             command_module.execute(args, clients)
-        inactive.set()
     except ImportError:
         print(Fore.RED + f"Invalid command: {cmd}" + Style.RESET_ALL)
     except InvalidClientId as e:
         print(Fore.RED + f"Invalid Client ID: {e.id}" + Style.RESET_ALL)
+    except InvalidArguments as e:
+        print(Fore.RED + e.argumentError + Style.RESET_ALL)
+
     finally:
-        inactive.set()
+        command_busy.clear()

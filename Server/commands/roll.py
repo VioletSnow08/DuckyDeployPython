@@ -2,12 +2,11 @@
 from colorama import Fore, Style
 
 requires_id = True
-
-from Server.console_handler import inactive
-
+argumentError = "Invalid arguments. Usage: roll <client id>"
+from Server.console_handler import command_busy
 
 def execute(conn, args, clients, id):
-    inactive.clear()
+    # command_busy.set()
     clients[id].sendall(b'ROLL')
     print("Rickrolling client:", id)
-    inactive.set()  # set the event here
+    # command_busy.clear()  # set the event here

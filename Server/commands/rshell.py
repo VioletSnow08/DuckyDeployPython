@@ -4,22 +4,24 @@ import threading
 
 from colorama import Style
 
-from Server.console_handler import inactive
+from console_handler import command_busy
+
 
 requires_id = True
 
+argumentError = "Invalid arguments. Usage: rshell <client_id> <command>"
 
 def execute(conn, args, clients, id):
     conn.sendall(b'RSHELL')
     threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
-    inactive.set()
+    # command_busy.clear()
 
 def rshell_thread(conn):
     hostname = conn.getpeername()[0]
     while True:
         command = input("<" + hostname + ">:" + Style.RESET_ALL)
         if command.lower() == 'exit':
-            inactive.set()
+            # command_busy.clear()
             break
         conn.sendall(command.encode())
         results = b''
