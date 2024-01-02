@@ -15,3 +15,5 @@ build/client.exe/
 dist/
 
 build/index/
+
+Client/build/client/

@@ -2,7 +2,7 @@
 from colorama import Fore, Style
 
 requires_id = True
-
+argumentError = "Usage: kill <client id>"
 
 
 def execute(conn, args, clients, id):

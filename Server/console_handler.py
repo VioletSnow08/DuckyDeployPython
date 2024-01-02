@@ -39,8 +39,8 @@ def handle_commands(command, clients):
             command_thread.start()
             command_thread.join()  # Wait for the command thread to finish
     except ImportError as e:
-        print(Fore.RED + f"Failed to import command module 'commands.{cmd.lower()}': {e}" + Style.RESET_ALL)
+        print(Fore.RED + f"Failed to import command module 'commands.{cmd.lower()}': " + Style.RESET_ALL + f"{e}")
     except InvalidClientId as e:
         print(Fore.RED + f"Invalid Client ID: {e.id}" + Style.RESET_ALL)
     except InvalidArguments as e:
-        print(Fore.RED + e.argumentError + Style.RESET_ALL)
+        print(Fore.RED + "Invalid Arguments.", Style.RESET_ALL + e.argumentError)

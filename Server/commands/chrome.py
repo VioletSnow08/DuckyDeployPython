@@ -4,7 +4,7 @@ from colorama import Fore, Style
 from Server.Exceptions import InvalidArguments
 
 requires_id = True
-argumentError = "Invalid arguments. Usage: chrome <client_id> <url>"
+argumentError = "Usage: chrome <client_id> <url>"
 
 
 def execute(conn, args, clients, id):

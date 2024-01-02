@@ -2,7 +2,7 @@
 from colorama import Fore, Style
 
 requires_id = True
-argumentError = "Invalid arguments. Usage: notepad <client_id> <text>"
+argumentError = "Usage: notepad <client_id> <text>"
 
 
 def execute(conn, args, clients, id):
