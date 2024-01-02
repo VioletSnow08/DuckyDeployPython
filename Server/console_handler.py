@@ -17,6 +17,7 @@ def handle_console(clients):
 def handle_commands(command, clients):
     cmd = command.split(' ')[0]
     args = command.split(' ')[1:]
+    print(Fore.GREEN + f"Executing command:" + Style.RESET_ALL + f" {cmd}")
 
     try:
         command_module = importlib.import_module(f'commands.{cmd.lower()}')
@@ -35,8 +36,8 @@ def handle_commands(command, clients):
             command_thread = threading.Thread(target=command_module.execute, args=(args, clients))
             command_thread.start()
             command_thread.join()  # Wait for the command thread to finish
-    except ImportError:
-        print(Fore.RED + f"Invalid command:" + Style.RESET_ALL + f" {cmd}")
+    except ImportError as e:
+        print(Fore.RED + f"Failed to import command module 'commands.{cmd.lower()}': {e}" + Style.RESET_ALL)
     except InvalidClientId as e:
         print(Fore.RED + f"Invalid Client ID: {e.id}" + Style.RESET_ALL)
     except InvalidArguments as e:

