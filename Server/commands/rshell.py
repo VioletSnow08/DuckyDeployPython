@@ -22,7 +22,7 @@ def rshell_thread(conn):
     while True:
         command = input("<" + hostname + ">:" + Style.RESET_ALL)
         if command.lower() == 'exit':
-            # command_busy.clear()
+            conn.sendall(b'exit')
             break
         conn.sendall(command.encode())
         results = b''

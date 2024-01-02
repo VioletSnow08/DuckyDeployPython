@@ -36,7 +36,7 @@ def handle_commands(command, clients):
             command_thread.start()
             command_thread.join()  # Wait for the command thread to finish
     except ImportError:
-        print(Fore.RED + f"Invalid command: {cmd}" + Style.RESET_ALL)
+        print(Fore.RED + f"Invalid command:" + Style.RESET_ALL + f" {cmd}")
     except InvalidClientId as e:
         print(Fore.RED + f"Invalid Client ID: {e.id}" + Style.RESET_ALL)
     except InvalidArguments as e:

