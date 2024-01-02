@@ -31,11 +31,12 @@ def handle_commands(command, clients):
             id = int(args[0])
             if id >= len(clients) or id < 0:
                 raise InvalidClientId(id)
-
+            inactive.clear()
             command_module.execute(clients[id], args, clients, id)
         elif command_module.requires_id and not args:
             print(Fore.RED + "Command requires arguments: " + cmd + Style.RESET_ALL)
         else:
+            inactive.clear()
             command_module.execute(args, clients)
         inactive.set()
     except ImportError:

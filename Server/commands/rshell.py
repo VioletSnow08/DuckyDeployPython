@@ -10,7 +10,6 @@ requires_id = True
 
 
 def execute(conn, args, clients, id):
-    inactive.clear()
     conn.sendall(b'RSHELL')
     threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
     inactive.set()
