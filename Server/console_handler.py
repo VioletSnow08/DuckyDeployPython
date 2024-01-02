@@ -17,7 +17,6 @@ def handle_console(clients):
 def handle_commands(command, clients):
     cmd = command.split(' ')[0]
     args = command.split(' ')[1:]
-    print(Fore.GREEN + f"Executing command:" + Style.RESET_ALL + f" {cmd}")
 
     try:
         command_module = importlib.import_module(f'commands.{cmd.lower()}')

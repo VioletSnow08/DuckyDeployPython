@@ -7,7 +7,7 @@ from colorama import Style, Fore
 requires_id = True
 
 argumentError = "Invalid arguments. Usage: rshell <client_id>"
-
+requires_id = True
 
 def execute(conn, args, clients, id):
     conn.sendall(b'RSHELL')
