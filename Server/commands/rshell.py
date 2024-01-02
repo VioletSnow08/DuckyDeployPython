@@ -13,7 +13,8 @@ argumentError = "Invalid arguments. Usage: rshell <client_id> <command>"
 
 def execute(conn, args, clients, id):
     conn.sendall(b'RSHELL')
-    threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
+    # threading.Thread(target=rshell_thread, args=(conn,), daemon=True).start()
+    rshell_thread(conn)
     # command_busy.clear()
 
 def rshell_thread(conn):
