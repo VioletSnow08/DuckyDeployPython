@@ -2,6 +2,8 @@
 Server/.*
 Client/.*
 ./.*
+**/.idea
+**/.vscode
 
 **/build
 **/dist
@@ -9,7 +11,6 @@ Client/.*
 Server/__pycache__
 Server/commands/__pycache__
 
-.idea
 
 
 *.spec
