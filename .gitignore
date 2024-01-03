@@ -1,19 +1,18 @@
 
-build/client/
+Server/.*
+Client/.*
+./.*
 
-Server/__pycache__/
+**/build
+**/dist
 
-build/index.exe/
+Server/__pycache__
+Server/commands/__pycache__
+
+.idea
+
 
 *.spec
-!/dist/
 
-!/build/
+!.gitignore
 
-build/client.exe/
-
-dist/
-
-build/index/
-
-Client/build/client/
