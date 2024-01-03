@@ -8,8 +8,7 @@ Client/.*
 **/build
 **/dist
 
-Server/__pycache__
-Server/commands/__pycache__
+**/__pycache__
 
 
 
