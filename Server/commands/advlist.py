@@ -5,6 +5,7 @@ from rich.console import Console
 from rich.table import Table
 
 requires_id = False
+expectedNumArgs = 0
 
 def execute(args, clients):
     console = Console()

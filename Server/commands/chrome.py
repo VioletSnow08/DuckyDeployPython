@@ -4,10 +4,11 @@ from colorama import Fore, Style
 from Server.Exceptions import InvalidArguments
 
 requires_id = True
+expectedNumArgs = 2
 argumentError = "Usage: chrome <client_id> <url>"
 
 
-def execute(conn, args, clients, id):
+def execute(conn, id, args, clients):
     if len(args) < 2:
         print(Fore.RED + argumentError + Style.RESET_ALL)
         return

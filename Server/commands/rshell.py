@@ -9,11 +9,12 @@ from colorama import Style, Fore
 requires_id = True
 
 argumentError = "Usage: rshell <client_id>"
+expectedNumArgs = 1
 requires_id = True
 
 
 # commands/rshell.py
-def execute(conn, args, clients, id):
+def execute(conn, id, args, clients):
     conn.sendall(b'RSHELL')
     conn.settimeout(1)  # Set a timeout of 1 second
     success = False

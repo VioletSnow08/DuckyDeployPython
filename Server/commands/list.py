@@ -5,6 +5,8 @@ from rich.console import Console
 from rich.table import Table
 
 requires_id = False
+expectedNumArgs = 0
+argumentError = "Usage: list"
 
 
 def execute(args, clients):

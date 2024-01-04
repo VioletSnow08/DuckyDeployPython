@@ -1,15 +1,8 @@
 import subprocess
-from colorama import Style, Fore
 
-from Client.client import send_shell_results
-
-chrome_path = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+from Client.helpers import open_chrome
 
 
-def open_chrome(url):
-    subprocess.call([chrome_path, url])
-
-
-def execute(s, args):
+def execute(conn, args):
     print("Opening Chrome tab: " + args[1])
     open_chrome(args[1])
