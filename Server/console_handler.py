@@ -1,4 +1,5 @@
 # console_handler.py
+import Server.helpers
 from Server.Exceptions import InvalidClientId, InvalidArguments
 from colorama import Fore, Style
 import importlib
@@ -29,15 +30,23 @@ def handle_commands(command, clients):
             if id >= len(clients) or id < 0:
                 raise InvalidClientId(id)
             else:
-                command_thread = threading.Thread(target=command_module.execute, args=(clients[id], args, clients, id))
+                if not Server.helpers.checkArgs(args, command_module.expectedNumArgs): raise InvalidArguments(command_module.argumentError)
+
+                command_thread = threading.Thread(target=command_module.execute, args=(clients[id], id, args, clients, ))
                 command_thread.start()
-                command_thread.join()  # Wait for the command thread to finish
+                command_thread.join()
+
         elif command_module.requires_id and not args:
             raise InvalidArguments(command_module.argumentError)
+
         elif not command_module.requires_id:
+            if not Server.helpers.checkArgs(args, command_module.expectedNumArgs): raise InvalidArguments(command_module.argumentError)
+
             command_thread = threading.Thread(target=command_module.execute, args=(args, clients))
             command_thread.start()
             command_thread.join()  # Wait for the command thread to finish
+
+
     except ImportError as e:
         print(Fore.RED + f"Failed to import command module 'commands.{cmd.lower()}': " + Style.RESET_ALL + f"{e}")
     except InvalidClientId as e:
