@@ -19,7 +19,8 @@ def main():
         s.listen()
         print(Fore.GREEN + "Listening on IP: {}, port {}...".format(HOST, PORT) + Fore.RESET)
         threading.Thread(target=handle_console, args=(clients,), daemon=True).start()
-
+        # TODO: add a way to package commands in pyinstaller
+        # TODO: add a way to confirm a command was executed successfully
         while True:  # search for clients
             conn, addr = s.accept()
             clients.append(conn)
