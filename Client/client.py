@@ -1,8 +1,5 @@
 import importlib
-import subprocess
-import threading
 import time
-import webbrowser
 import socket
 
 from colorama import Fore, Style
@@ -54,16 +51,7 @@ def socketStart():
 
 
 
-def send_shell_results(s, results):
-    try:
-        data_to_send = results.encode("utf-8")
-        # Send data in chunks
-        for i in range(0, len(data_to_send), 1024):
-            s.sendall(data_to_send[i:i + 1024]) # Send 1024 bytes at a time
-        print("Sent results.")
-    except BrokenPipeError:
-        print("Connection closed by server.")
-        return
+
 
 
 if __name__ == "__main__":
