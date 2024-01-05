@@ -2,7 +2,7 @@ from colorama import Fore, Style
 
 from Server.Exceptions import InvalidClientId
 
-DEBUG = True
+DEBUG = True # Set to True to enable debug messages
 
 
 def checkArgs(args, expectedNumArgs):
