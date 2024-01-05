@@ -12,7 +12,9 @@ def handle_commands(command, clients):
     args = command.split(' ')[1:]
     command_module = None
     try:
+        debugPrint(f"Checking if command '{cmd}' exists.")
         command_module = importlib.import_module(f'commands.{cmd.lower()}')
+        debugPrint(f"Command {cmd} exists.") # if it doesn't exist, it would throw an error and skip this line
         if command_module.requires_id and args and validateID(args, clients):
             if not checkArgs(args, command_module.expectedNumArgs): raise InvalidArguments(command_module.argumentError)
 
