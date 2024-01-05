@@ -2,7 +2,6 @@
 
 import socket
 from colorama import Fore, Style
-from console_handler import command_busy
 
 
 def handle_client(conn, addr, clients):
