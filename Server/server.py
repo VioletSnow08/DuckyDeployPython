@@ -1,5 +1,5 @@
 # server.py
-
+import os
 import socket
 import threading
 import time
@@ -8,10 +8,12 @@ from client_handler import handle_client
 from console_handler import handle_console
 from colorama import Fore, Style
 from Server.helpers import debugPrint
+from dotenv import load_dotenv
 
-# get local IP address
-HOST = (socket.gethostbyname_ex(socket.gethostname())[2][-1])
-PORT = 5616
+load_dotenv()
+
+HOST = os.getenv("HOST")
+PORT = int(os.getenv("PORT"))
 
 clients = []
 

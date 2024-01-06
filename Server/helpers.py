@@ -1,8 +1,13 @@
+import os
+
 from colorama import Fore, Style
 
 from Server.Exceptions import InvalidClientId
+from dotenv import load_dotenv
 
-DEBUG = True # Set to True to enable debug messages
+load_dotenv()
+
+DEBUG = os.getenv("DEBUG") == "True"
 
 
 def checkArgs(args, expectedNumArgs):

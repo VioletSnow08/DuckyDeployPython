@@ -16,3 +16,5 @@ Client/.*
 
 !.gitignore
 
+
+.env

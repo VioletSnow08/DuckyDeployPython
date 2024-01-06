@@ -1,12 +1,15 @@
 import importlib
+import os
 import time
 import socket
 
+from dotenv import load_dotenv
 from colorama import Fore, Style
 
-# HOST = '127.0.0.1'
-HOST = "192.168.1.92"
-PORT = 5616
+load_dotenv()
+
+HOST = os.getenv("HOST")
+PORT = int(os.getenv("PORT"))
 
 
 
